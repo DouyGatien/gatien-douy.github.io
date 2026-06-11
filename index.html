@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gatien Douy – Développeur Web Fullstack</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #13161e;
+  --surface2: #1a1e29;
+  --accent: #4f8ef7;
+  --accent2: #7c5cfc;
+  --green: #36d399;
+  --text: #e8eaf0;
+  --muted: #6b7280;
+  --border: rgba(255,255,255,0.07);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── CURSOR ── */
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .2s, height .2s, background .2s;
+  mix-blend-mode: screen;
+}
+.cursor.big { width:40px; height:40px; background:rgba(79,142,247,0.15); border:1px solid var(--accent); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 60px;
+  background: rgba(13,15,20,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-links { display:flex; gap:32px; list-style:none; }
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: opacity .2s;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+.nav-cv {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 7px 16px;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: color .2s, border-color .2s;
+}
+.nav-cv:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 60px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(79,142,247,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 70%, rgba(124,92,252,0.08) 0%, transparent 60%);
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+
+.hero-content { position: relative; max-width: 700px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(79,142,247,0.1);
+  border: 1px solid rgba(79,142,247,0.3);
+  padding: 6px 14px; border-radius: 40px;
+  font-size: 12px; font-weight: 500; color: var(--accent);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp .6s ease both;
+}
+
+.hero-badge::before {
+  content:'';
+  width:6px; height:6px;
+  border-radius:50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:.6; transform:scale(1.3); }
+}
+
+.hero-name {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  color: var(--text);
+  animation: fadeUp .6s .1s ease both;
+}
+
+.hero-name .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--muted);
+  margin-top: 20px;
+  animation: fadeUp .6s .2s ease both;
+}
+
+.hero-title strong { color: var(--text); font-weight: 500; }
+
+.hero-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-top: 24px;
+  max-width: 520px;
+  animation: fadeUp .6s .3s ease both;
+}
+
+.hero-actions {
+  display: flex; gap: 14px; margin-top: 40px;
+  animation: fadeUp .6s .4s ease both;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent);
+  color: #fff; font-size: 14px; font-weight: 500;
+  padding: 12px 28px; border-radius: 40px;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(79,142,247,0.35); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text); font-size: 14px; font-weight: 500;
+  padding: 12px 28px; border-radius: 40px;
+  text-decoration: none;
+  transition: border-color .2s, transform .2s;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+
+.btn-cv {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  border: 1px solid rgba(54,211,153,0.4);
+  color: var(--green);
+  font-size: 14px; font-weight: 500;
+  padding: 12px 28px; border-radius: 40px;
+  text-decoration: none;
+  transition: background .2s, transform .2s, box-shadow .2s;
+}
+.btn-cv:hover {
+  background: rgba(54,211,153,0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(54,211,153,0.15);
+}
+
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 60px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; color: var(--muted); letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: fadeUp .6s .6s ease both;
+}
+
+.hero-scroll::before {
+  content: '';
+  width: 30px; height: 1px;
+  background: var(--muted);
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ── SECTION BASE ── */
+section {
+  padding: 100px 60px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 540px;
+}
+
+/* ── SKILLS ── */
+#skills { background: var(--surface); }
+
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-top: 60px;
+  align-items: start;
+}
+
+.skills-group-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+}
+
+.skill-item:last-child { border-bottom: none; }
+
+.skill-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.skill-bar-wrap {
+  flex: 1; max-width: 160px;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-bar {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s ease;
+}
+
+.skill-bar.visible { transform: scaleX(1); }
+
+.skill-pct {
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: right;
+}
+
+.soft-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+
+.soft-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--text);
+  transition: border-color .2s, background .2s;
+}
+
+.soft-tag:hover { border-color: var(--accent); background: rgba(79,142,247,0.08); }
+
+.soft-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent2);
+}
+
+/* ── EXPÉRIENCE ── */
+#experience { background: var(--bg); }
+
+.timeline {
+  position: relative;
+  margin-top: 60px;
+  padding-left: 32px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.timeline-item.visible { opacity:1; transform:translateX(0); }
+
+.timeline-dot {
+  position: absolute;
+  left: -38px; top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 4px rgba(79,142,247,0.15);
+}
+
+.timeline-dot.current {
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(54,211,153,0.15);
+  animation: pulse 2s infinite;
+}
+
+.timeline-period {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.timeline-role {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.timeline-company {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.timeline-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+
+.t-tag {
+  font-size: 11px; font-weight: 500;
+  background: rgba(79,142,247,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(79,142,247,0.2);
+  padding: 3px 10px; border-radius: 20px;
+}
+
+.timeline-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.timeline-list li {
+  font-size: 13px;
+  color: var(--muted);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.timeline-list li::before {
+  content: '▸';
+  position: absolute; left: 0;
+  color: var(--accent);
+  font-size: 10px;
+}
+
+/* ── PROJETS ── */
+#projets { background: var(--bg); }
+
+.projets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.projet-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .5s ease, transform .5s ease, border-color .25s;
+}
+
+.projet-card.visible { opacity:1; transform:translateY(0); }
+.projet-card:hover { border-color: rgba(79,142,247,0.35); }
+
+.projet-card:nth-child(2) { transition-delay: .1s; }
+.projet-card:nth-child(3) { transition-delay: .2s; }
+
+.projet-visual {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  position: relative;
+  overflow: hidden;
+}
+
+.projet-visual::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, var(--surface));
+}
+
+.projet-visual.skate { background: linear-gradient(135deg, #1a2a1a, #0d2010); }
+.projet-visual.digital { background: linear-gradient(135deg, #0d1a2e, #0a1528); }
+.projet-visual.arsa { background: linear-gradient(135deg, #1e1a0d, #2a200a); }
+
+.projet-body { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+.projet-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 20px;
+  align-self: flex-start;
+}
+
+.projet-status.school {
+  background: rgba(124,92,252,0.15);
+  color: var(--accent2);
+  border: 1px solid rgba(124,92,252,0.25);
+}
+
+.projet-status.pro {
+  background: rgba(54,211,153,0.12);
+  color: var(--green);
+  border: 1px solid rgba(54,211,153,0.25);
+}
+
+.projet-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 19px; font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.projet-desc {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.7; flex: 1;
+}
+
+.projet-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+.projet-tag {
+  font-size: 10px; font-weight: 500;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 3px 9px; border-radius: 20px;
+}
+
+/* ── FORMATION ── */
+#formation { background: var(--surface); }
+
+.formation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.formation-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: border-color .2s, transform .2s;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .5s ease, transform .5s ease, border-color .2s;
+}
+
+.formation-card.visible { opacity:1; transform:translateY(0); }
+.formation-card:hover { border-color: rgba(79,142,247,0.3); transform: translateY(-4px); }
+
+.formation-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+
+.formation-icon.blue { background: rgba(79,142,247,0.15); }
+.formation-icon.purple { background: rgba(124,92,252,0.15); }
+
+.formation-school {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 6px;
+}
+
+.formation-degree {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px; font-weight: 700;
+  color: var(--text); margin-bottom: 6px;
+}
+
+.formation-year {
+  font-size: 12px; color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.formation-desc {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── CONTACT ── */
+#contact { background: var(--bg); }
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 60px;
+  align-items: start;
+}
+
+.contact-info { display: flex; flex-direction: column; gap: 20px; }
+
+.contact-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color .2s;
+}
+
+.contact-item:hover { border-color: rgba(79,142,247,0.3); }
+
+.contact-item-icon {
+  width: 36px; height: 36px;
+  background: rgba(79,142,247,0.12);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.contact-item-icon svg { width:16px; height:16px; }
+
+.contact-note {
+  background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(124,92,252,0.08));
+  border: 1px solid rgba(79,142,247,0.2);
+  border-radius: 16px;
+  padding: 36px;
+}
+
+.contact-note-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.contact-note-text {
+  font-size: 14px; color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.contact-note-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.avail-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500;
+  padding: 6px 14px; border-radius: 40px;
+}
+
+.avail-badge.open {
+  background: rgba(54,211,153,0.12);
+  color: var(--green);
+  border: 1px solid rgba(54,211,153,0.25);
+}
+
+.avail-badge.open::before {
+  content:''; width:6px; height:6px;
+  border-radius:50%; background:var(--green);
+  animation: pulse 2s infinite;
+}
+
+.avail-badge.loc {
+  background: rgba(255,255,255,0.04);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 32px 60px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: var(--muted);
+}
+
+.footer-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; color: var(--text);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  #hero { padding: 100px 24px 60px; }
+  .hero-scroll { left: 24px; }
+  .skills-layout,
+  .formation-grid,
+  .projets-grid,
+  .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">G<span>.</span>Douy</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <a href="CV_Gatien_Douy.pdf" download class="nav-cv">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      CV
+    </a>
+    <a href="mailto:douygatien@outlook.fr" class="nav-cta">Me contacter</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Disponible · Île-de-France</div>
+    <h1 class="hero-name">
+      Gatien
+      <span class="line2">Douy</span>
+    </h1>
+    <p class="hero-title">
+      <strong>Développeur Web Fullstack</strong> —
+      React · Next.js · Symfony
+    </p>
+    <p class="hero-desc">
+      En reconversion réussie depuis l'industrie, je conçois et développe des applications web modernes. Maîtrise du frontend JavaScript et du backend PHP/Symfony, avec une attention particulière à la qualité du code et à l'expérience utilisateur.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Me contacter
+      </a>
+      <a href="#experience" class="btn-secondary">
+        Voir mon parcours
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <a href="CV_Gatien_Douy.pdf" download class="btn-cv">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger le CV
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Compétences</div>
+  <h2 class="section-title">Hard Skills &<br>Soft Skills</h2>
+  <p class="section-sub">Un stack fullstack moderne, acquis en formation intensive et consolidé en conditions réelles.</p>
+
+  <div class="skills-layout">
+    <div>
+      <div class="skills-group-title">Hard Skills</div>
+      <div class="skill-item">
+        <span class="skill-name">Next.js / React</span>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="--w:0.82"></div></div>
+        <span class="skill-pct">82%</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">TypeScript</span>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="--w:0.75"></div></div>
+        <span class="skill-pct">75%</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Symfony 7 / PHP</span>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="--w:0.80"></div></div>
+        <span class="skill-pct">80%</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">HTML5 / CSS3</span>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="--w:0.90"></div></div>
+        <span class="skill-pct">90%</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">JavaScript</span>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="--w:0.78"></div></div>
+        <span class="skill-pct">78%</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">SEO</span>
+        <div class="skill-bar-wrap"><div class="skill-bar" style="--w:0.65"></div></div>
+        <span class="skill-pct">65%</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="skills-group-title">Soft Skills</div>
+      <div class="soft-tags">
+        <span class="soft-tag">Travail en équipe</span>
+        <span class="soft-tag">Rigueur</span>
+        <span class="soft-tag">Curiosité</span>
+        <span class="soft-tag">Adaptation</span>
+        <span class="soft-tag">Autonomie</span>
+      </div>
+
+      <div class="skills-group-title" style="margin-top:36px">Langues</div>
+      <div class="skill-item">
+        <span class="skill-name">Français</span>
+        <span class="skill-pct" style="color:var(--green);font-weight:600;font-size:12px">Natif</span>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Anglais</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-size:11px;color:var(--muted)">Écrit</span>
+          <span style="font-size:12px;font-weight:600;color:var(--accent)">B1</span>
+          <span style="font-size:11px;color:var(--muted)">Oral</span>
+          <span style="font-size:12px;font-weight:600;color:var(--accent)">A2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPÉRIENCE -->
+<section id="experience">
+  <div class="section-label">Parcours</div>
+  <h2 class="section-title">Expérience<br>professionnelle</h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot current"></div>
+      <div class="timeline-period">Juillet 2025 – Présent</div>
+      <div class="timeline-role">Développeur Web</div>
+      <div class="timeline-company">Insersite · CDI</div>
+      <div class="timeline-tags">
+        <span class="t-tag">React</span>
+        <span class="t-tag">Next.js</span>
+        <span class="t-tag">TypeScript</span>
+        <span class="t-tag">Symfony 7</span>
+        <span class="t-tag">JWT</span>
+      </div>
+      <ul class="timeline-list">
+        <li>Développement frontend sur deux projets distincts en React / Next.js / TypeScript</li>
+        <li>Intégration d'interfaces, gestion de l'état et consommation d'API REST</li>
+        <li>Backend Symfony 7 / PHP avec authentification JWT et gestion multi-rôles</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Mai 2018 – Janvier 2023</div>
+      <div class="timeline-role">CDI Intérimaire – Opérateur / Cariste</div>
+      <div class="timeline-company">Adecco · Renault (Flins), Daher (Flins), Peugeot (Poissy)</div>
+      <div class="timeline-tags">
+        <span class="t-tag">Logistique</span>
+        <span class="t-tag">Gestion de flux</span>
+        <span class="t-tag">HSE</span>
+      </div>
+      <ul class="timeline-list">
+        <li>Approvisionnement et gestion des flux sur chaîne de production automobile</li>
+        <li>Conduite d'engins de manutention (cariste certifié)</li>
+        <li>Contrôle qualité et signalement des anomalies de conformité</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Janvier 2017 – Novembre 2017</div>
+      <div class="timeline-role">Opérateur</div>
+      <div class="timeline-company">Peugeot · Poissy</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Mars 2016</div>
+      <div class="timeline-role">Employé municipal</div>
+      <div class="timeline-company">Mairie de Mantes-la-Jolie</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJETS -->
+<section id="projets">
+  <div class="section-label">Réalisations</div>
+  <h2 class="section-title">Mes projets</h2>
+  <p class="section-sub">Des projets variés, de l'école au professionnel, qui reflètent mon évolution en tant que développeur fullstack.</p>
+
+  <div class="projets-grid">
+
+    <!-- Balance ton spot -->
+    <div class="projet-card">
+      <div class="projet-visual skate">🛹</div>
+      <div class="projet-body">
+        <span class="projet-status school">Projet école</span>
+        <div class="projet-title">Balance ton spot</div>
+        <div class="projet-desc">
+          Application web permettant de répertorier les skateparks en France et d'aider les utilisateurs à en trouver un près de chez eux. Carte interactive, fiches détaillées, et contribution communautaire.
+        </div>
+        <div class="projet-tags">
+          <span class="projet-tag">Symfony</span>
+          <span class="projet-tag">PHP</span>
+          <span class="projet-tag">JavaScript</span>
+          <span class="projet-tag">API Maps</span>
+          <span class="projet-tag">MySQL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Digital Compétences -->
+    <div class="projet-card">
+      <div class="projet-visual digital">🎓</div>
+      <div class="projet-body">
+        <span class="projet-status pro">Professionnel</span>
+        <div class="projet-title">Digital Compétences</div>
+        <div class="projet-desc">
+          Plateforme d'accompagnement vers l'emploi et la formation. Parcours de diagnostic des compétences numériques, mise en relation candidats ↔ formateurs ↔ prescripteurs, suivi de RDV, certifications et gestion documentaire avec signatures.
+        </div>
+        <div class="projet-tags">
+          <span class="projet-tag">Next.js</span>
+          <span class="projet-tag">TypeScript</span>
+          <span class="projet-tag">Symfony 7</span>
+          <span class="projet-tag">JWT</span>
+          <span class="projet-tag">Multi-rôles</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARSA -->
+    <div class="projet-card">
+      <div class="projet-visual arsa">🤝</div>
+      <div class="projet-body">
+        <span class="projet-status pro">Professionnel</span>
+        <div class="projet-title">ARSA</div>
+        <div class="projet-desc">
+          Outil de pilotage destiné aux acteurs de l'insertion sociale. Suivi des parcours d'insertion, reporting d'activité pour les structures partenaires, et tableau de bord pour les organismes pilotes.
+        </div>
+        <div class="projet-tags">
+          <span class="projet-tag">React</span>
+          <span class="projet-tag">Next.js</span>
+          <span class="projet-tag">TypeScript</span>
+          <span class="projet-tag">Symfony 7</span>
+          <span class="projet-tag">Dashboard</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FORMATION -->
+<section id="formation">
+  <div class="section-label">Formation</div>
+  <h2 class="section-title">Mon parcours<br>académique</h2>
+
+  <div class="formation-grid">
+    <div class="formation-card">
+      <div class="formation-icon blue">🎓</div>
+      <div class="formation-school">École O'Clock · Formation intensive</div>
+      <div class="formation-degree">Développeur Web Fullstack</div>
+      <div class="formation-year">septembre 2023 – mai 2024</div>
+      <div class="formation-desc">
+        Formation fullstack JavaScript & PHP avec spécialisation Symfony.
+        Projet de fin de formation réalisé en équipe avec méthodologie Agile.
+        Stack complet : HTML/CSS, JS, React, PHP, Symfony.
+      </div>
+    </div>
+
+    <div class="formation-card">
+      <div class="formation-icon purple">📋</div>
+      <div class="formation-school">Lycée Saint-Exupéry · Mantes-la-Jolie</div>
+      <div class="formation-degree">BAC Pro Comptabilité</div>
+      <div class="formation-year">2013</div>
+      <div class="formation-desc">
+        Baccalauréat professionnel spécialité comptabilité.
+        Acquisition de compétences en gestion, rigueur administrative et analyse chiffrée.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title">Travaillons<br>ensemble</h2>
+
+  <div class="contact-layout">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        douygatien@outlook.fr
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 15.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        </div>
+        06 46 71 74 25
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <a href="https://www.linkedin.com/in/gatien-douy" target="_blank" style="color:inherit;text-decoration:none;">linkedin.com/in/gatien-douy</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        Mantes-la-Jolie, Île-de-France · Permis B
+      </div>
+    </div>
+
+    <div class="contact-note">
+      <div class="contact-note-title">Ouvert aux opportunités</div>
+      <div class="contact-note-text">
+        Je suis à l'écoute de nouvelles opportunités en développement web fullstack, en Île-de-France ou en télétravail. N'hésitez pas à me contacter pour échanger sur vos projets.
+      </div>
+      <div class="contact-note-badges">
+        <span class="avail-badge open">Disponible</span>
+        <span class="avail-badge loc">📍 Île-de-France</span>
+        <span class="avail-badge loc">🌐 Télétravail OK</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Gatien Douy</div>
+  <div>Développeur Web Fullstack · Mantes-la-Jolie</div>
+  <div style="display:flex;gap:20px;align-items:center;">
+    <span>douygatien@outlook.fr</span>
+    <a href="CV_Gatien_Douy.pdf" download style="display:inline-flex;align-items:center;gap:5px;color:var(--accent);text-decoration:none;font-size:12px;">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Télécharger le CV
+    </a>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
+
+// Intersection Observer pour animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Skill bars
+      entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+        bar.classList.add('visible');
+      });
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.timeline-item, .formation-card, .projet-card, #skills').forEach(el => observer.observe(el));
+
+// Skill bars largeur via CSS custom prop
+document.querySelectorAll('.skill-bar').forEach(bar => {
+  const w = bar.style.getPropertyValue('--w');
+  if (w) bar.style.width = (parseFloat(w) * 100) + '%';
+});
+</script>
+</body>
+</html>
